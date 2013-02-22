@@ -25,7 +25,8 @@ namespace Chapter1
             Console.WriteLine(TableReader.TabToString(garageClone));
 
             DataView garageView = new DataView(garageClone);
-            garageView.Sort = "Year DESC";
+            garageView.Sort = "Year DESC, Plate ASC";
+            garageView.RowFilter = "Year < 1970";
 
             Console.WriteLine("Garage view :");
             Console.WriteLine(TableReader.ViewToString(garageView));

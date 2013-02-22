@@ -22,5 +22,10 @@ namespace Toolbox
 
             return clone;
         }
+
+        //public static DataTable ViewToTable(DataView view, string tabName = "Export")
+        //{
+        //    DataTable export = view.ToTable(
+        //}
     }
 }
