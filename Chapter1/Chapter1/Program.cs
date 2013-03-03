@@ -125,23 +125,39 @@ namespace Chapter1
 
             DataSerializer.DataToXml(myGarage.cars, "cars.xml");
 
-            DataTable xmlGarage = DataWriter.XmlToTable("cars.xml");
-
-            Console.WriteLine(DataReader.TabToString(xmlGarage));
+            DataTable xmlGarage;
+            string cars = string.Empty;
+            try
+            {
+                xmlGarage = DataWriter.XmlToTable("cars.xml");
+                cars = DataReader.TabToString(xmlGarage, true);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("La lecture du fichier \"cars.xml\" a échoué\n" + ex.Message);
+            }
 
             PartsBusiness partsBiz = new PartsBusiness();
 
             DataSerializer.DataToXml(partsBiz, "partsBusiness", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
 
-            DataSet xmlPartsBiz = DataWriter.XmlToSet("partsBusiness", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-
-            string partsBizStr = ToolBoxUtilities.MergeStringList(DataReader.DataSetToStrings(xmlPartsBiz));
+            DataSet xmlPartsBiz;
+            string partsBizStr = string.Empty;
+            try
+            {
+                xmlPartsBiz = DataWriter.XmlToSet("partsBusiness", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+                partsBizStr = ToolBoxUtilities.MergeStringList(DataReader.DataSetToStrings(xmlPartsBiz, true));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("La lecture du fichier \"PartsBusiness.xml\" a échoué\n" + ex.Message);
+            }
 
             using (StreamWriter outfile = new StreamWriter(filePath + @"\SalesPrints.txt"))
             {
                 try
                 {
-                    outfile.Write(partsBizStr);
+                    outfile.Write(cars + "\n\n" + partsBizStr);
                     Console.WriteLine("Ecriture réussie !");
                 }
                 catch (Exception ex)
@@ -153,14 +169,5 @@ namespace Chapter1
 
             Console.ReadKey();
         }
-
-        //public static PartsBusiness XmlToPB(string fileName, string filePath)
-        //{
-        //    PartsBusiness set = new PartsBusiness();
-        //    set.EnforceConstraints = false;
-        //    set.ReadXml(ToolBoxUtilities.FullFilePath(fileName, filePath));
-
-        //    return set;
-        //}
     }
 }

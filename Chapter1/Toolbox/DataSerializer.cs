@@ -31,9 +31,12 @@ namespace Toolbox
         public static void DataToXml(DataTable tab, string fileName, string filePath, bool withSchema = true)
         {
             if (withSchema)
-                tab.WriteXml(ToolBoxUtilities.FullFilePath(fileName, filePath), XmlWriteMode.WriteSchema);
+            {
+                tab.WriteXmlSchema(ToolBoxUtilities.SchemaPath(fileName, filePath));
+                tab.WriteXml(ToolBoxUtilities.XmlPath(fileName, filePath));
+            }
             else
-                tab.WriteXml(ToolBoxUtilities.FullFilePath(fileName, filePath));
+                tab.WriteXml(ToolBoxUtilities.XmlPath(fileName, filePath));
         }
 
         /// <summary>
@@ -58,9 +61,12 @@ namespace Toolbox
         public static void DataToXml(DataSet set, string fileName, string filePath, bool withSchema = true)
         {
             if (withSchema)
-                set.WriteXml(ToolBoxUtilities.FullFilePath(fileName, filePath), XmlWriteMode.WriteSchema);
+            {
+                set.WriteXmlSchema(ToolBoxUtilities.SchemaPath(fileName, filePath));
+                set.WriteXml(ToolBoxUtilities.XmlPath(fileName, filePath));
+            }
             else
-                set.WriteXml(ToolBoxUtilities.FullFilePath(fileName, filePath));
+                set.WriteXml(ToolBoxUtilities.XmlPath(fileName, filePath));
         }
     }
 }
