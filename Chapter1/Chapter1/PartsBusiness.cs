@@ -12,31 +12,55 @@ namespace Chapter1
         public DataTable parts { get; private set; }
         public string name { get; private set; }
 
-        public PartsBusiness(string dataSetName) : base(dataSetName)
+        public PartsBusiness(string dataSetName = "PartsBusiness", bool xmlSerializable = true) : base(dataSetName)
         {
             DataTable sellers = this.Tables.Add("Sellers");
-            sellers.Columns.Add("ID", typeof(Guid));
-            sellers.Columns.Add("Name");
-            sellers.Columns.Add("Address1");
-            sellers.Columns.Add("Address2");
-            sellers.Columns.Add("City");
-            sellers.Columns.Add("PostCode");
-            sellers.Columns.Add("Country");
-            sellers.PrimaryKey = new DataColumn[] { sellers.Columns["ID"] };
+            DataColumn sid = sellers.Columns.Add("ID", typeof(Guid));
+            DataColumn name = sellers.Columns.Add("Name");
+            DataColumn address1 = sellers.Columns.Add("Address1");
+            DataColumn address2 = sellers.Columns.Add("Address2");
+            DataColumn city = sellers.Columns.Add("City");
+            DataColumn postCode = sellers.Columns.Add("PostCode");
+            DataColumn country = sellers.Columns.Add("Country");
+            sellers.PrimaryKey = new DataColumn[] { sid };
 
             DataTable parts = this.Tables.Add("Parts");
-            parts.Columns.Add("ID", typeof(Guid));
-            parts.Columns.Add("SellerID", typeof(Guid));
-            parts.Columns.Add("PartCode");
-            parts.Columns.Add("PartDescription");
-            parts.Columns.Add("Cost", typeof(decimal));
-            parts.Columns.Add("RetailPrice", typeof(decimal));
-            parts.PrimaryKey = new DataColumn[] { parts.Columns["ID"] };
+            DataColumn pid = parts.Columns.Add("ID", typeof(Guid));
+            DataColumn sellerId = parts.Columns.Add("SellerID", typeof(Guid));
+            DataColumn partCode = parts.Columns.Add("PartCode");
+            DataColumn  partDesc = parts.Columns.Add("PartDescription");
+            DataColumn cost = parts.Columns.Add("Cost", typeof(decimal));
+            DataColumn rPrice = parts.Columns.Add("RetailPrice", typeof(decimal));
+            DataColumn codeCost = parts.Columns.Add("CodeCost");
+            codeCost.Expression = "PartCode + ' ' + Cost";
+            parts.PrimaryKey = new DataColumn[] { pid };
 
             this.Relations.Add(
                 "Sellers_Parts",
-                sellers.Columns["ID"],
-                parts.Columns["SellerID"]);
+                sid,
+                sellerId, true);
+
+            ForeignKeyConstraint fk = (ForeignKeyConstraint)parts.Constraints["Sellers_Parts"];
+            fk.DeleteRule = Rule.Cascade;
+
+            if (xmlSerializable)
+            {
+                foreach (DataTable tab in this.Tables)
+                {
+                    foreach (DataColumn col in tab.Columns)
+                    {
+                        if (col.DataType == typeof(Guid))
+                            col.ColumnMapping = MappingType.Attribute;
+                        else if (col.Expression != string.Empty)
+                            col.ColumnMapping = MappingType.Hidden;
+                    }
+                }
+
+                foreach (DataRelation rel in this.Relations)
+                {
+                    rel.Nested = true;
+                }
+            }
 
             this.sellers = sellers;
             this.parts = parts;
@@ -88,6 +112,23 @@ namespace Chapter1
             newPart["RetailPrice"] = retailPrice;
 
             parts.Rows.Add(newPart);
+        }
+
+        public void DelRow(DataTable tab, DataRow row)
+        {
+            try
+            {
+                if (tab == sellers)
+                    Console.WriteLine("Removing row \"" + row["Name"] + "\"");
+                else if (tab == parts)
+                    Console.WriteLine("Removing row \"" + row["PartCode"] + "\"");
+                tab.Rows.Remove(row);
+                Console.WriteLine("Row removed !");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }

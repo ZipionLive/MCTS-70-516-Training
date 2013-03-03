@@ -6,7 +6,7 @@ using System.Data;
 
 namespace Toolbox
 {
-    public static class TableReader
+    public static class DataReader
     {
         const int defaultColWidth = 15;
 
@@ -22,9 +22,7 @@ namespace Toolbox
 
             foreach (DataColumn col in tab.Columns)
             {
-                if (col.DataType == typeof(Guid))
-                    sb.AppendFormat("{0,9}", col.ColumnName);
-                else
+                if (col.DataType != typeof(Guid))
                     sb.AppendFormat(colFormat, col.ColumnName);
             }
 
@@ -38,9 +36,7 @@ namespace Toolbox
                 {
                     foreach (DataColumn col in tab.Columns)
                     {
-                        if (col.DataType == typeof(Guid))
-                            sb.AppendFormat("{0,9}", "GUID");
-                        else
+                        if (col.DataType != typeof(Guid))
                             sb.AppendFormat(colFormat, row[col]);
                     }
                 }
@@ -75,6 +71,11 @@ namespace Toolbox
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Convertit un DataSet en une liste de strings (un string pour chaque DataTable dans le DataSet)
+        /// </summary>
+        /// <param name="set">Le DataSet à convertir</param>
+        /// <param name="colwidth">La taille des colonnes (en nombre de caractères)</param>
         public static List<string> DataSetToStrings(DataSet set, int colwidth = defaultColWidth)
         {
             List<string> tabPrints = new List<string>();

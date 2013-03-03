@@ -11,7 +11,7 @@ namespace Chapter1
         public DataTable cars { get; private set; }
 
         #region Constructor
-        public Garage()
+        public Garage(bool xmlSerializable = true)
         {
             this.cars = new DataTable("Cars");
 
@@ -47,6 +47,23 @@ namespace Chapter1
             year.AllowDBNull = false;
             cars.Columns.Add(year);
             #endregion
+            #region YearModel
+            DataColumn yearModel = new DataColumn("YearModel");
+            yearModel.Expression = "Model + ' ' + Year";
+            yearModel.Caption = "Year and Model";
+            cars.Columns.Add(yearModel);
+            #endregion
+
+            if (xmlSerializable)
+            {
+                this.cars.TableName = "CarsList";
+                ID.ColumnMapping = MappingType.Attribute;
+                plate.ColumnMapping = MappingType.Attribute;
+                manufacturer.ColumnMapping = MappingType.Attribute;
+                model.ColumnMapping = MappingType.Attribute;
+                year.ColumnMapping = MappingType.Attribute;
+                yearModel.ColumnMapping = MappingType.Hidden;
+            }
 
             FillGarage();
         }

@@ -12,6 +12,8 @@ namespace Chapter1
     {
         static void Main(string[] args)
         {
+            string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
             #region Garage
             //Garage myGarage = new Garage();
 
@@ -40,34 +42,125 @@ namespace Chapter1
             #endregion
 
             #region Parts Business
-            PartsBusiness partsBiz = new PartsBusiness("PartsBusiness");
-            DataTable sellers = partsBiz.sellers;
-            DataTable parts = partsBiz.parts;
+            //PartsBusiness partsBiz = new PartsBusiness("PartsBusiness");
+            //DataTable sellers = partsBiz.sellers;
+            //DataTable parts = partsBiz.parts;
 
-            string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            //StringBuilder sb = new StringBuilder();
 
-            StringBuilder sb = new StringBuilder();
+            //DataRow seller2 = sellers.Rows[1];
 
-            foreach (string str in TableReader.DataSetToStrings(partsBiz, 25))
+            //partsBiz.DelRow(sellers, seller2);
+
+            //partsBiz.DelRow(parts, parts.Rows[parts.Rows.Count - 2]);
+
+            //foreach (string str in TableReader.DataSetToStrings(partsBiz, 25))
+            //{
+            //    sb.AppendLine(str);
+            //}
+
+            //DataRow seller3 = sellers.Rows[sellers.Rows.Count - 1];
+
+            //DataRow[] seller3Parts = seller3.GetChildRows("Sellers_Parts");
+
+            //sb.AppendLine("Parts for " + seller3["Name"] + " :");
+            //foreach (DataRow row in seller3Parts)
+            //{
+            //    sb.AppendFormat("{0} : {1, 20} | {2} | {3}\n", row["PartCode"], row["PartDescription"], row["Cost"], row["RetailPrice"]);
+            //}
+            //sb.AppendLine();
+
+            //DataRow pt2seller = parts.Rows[1].GetParentRow("Sellers_Parts");
+
+            //sb.AppendLine("Part " + parts.Rows[1]["PartCode"] + " was ordered by :");
+            //sb.AppendFormat("{0} | {1}\n", pt2seller["Name"], pt2seller["Address1"]);
+            //sb.AppendLine();
+
+            //using (StreamWriter outfile = new StreamWriter(filePath + @"\TabPrints.txt"))
+            //{
+            //    try
+            //    {
+            //        outfile.Write(sb.ToString());
+            //        Console.WriteLine("Ecriture réussie !");
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Console.WriteLine(ex.Message);
+            //    }
+            //}
+            #endregion
+
+            #region Sales
+            //Sales sales = new Sales("Sales");
+            //DataSet tempSales = sales.Copy();
+            //DataTable tempPeople = tempSales.Tables["People"];
+
+            //DataRow cass = tempPeople.Select("Name='Cassidy'").SingleOrDefault();
+            //Guid cassID = (Guid)cass["ID"];
+
+            //cass["Name"] = "Proinsias Cassidy";
+
+            //sales.AddOrder(cassID, 100);
+
+            //sales.Merge(tempSales, false, MissingSchemaAction.Error);
+
+            //string salesPrints = ToolBoxUtilities.MergeStringList(TableReader.DataSetToStrings(sales));
+
+            //using (StreamWriter outfile = new StreamWriter(filePath + @"\SalesPrints.txt"))
+            //{
+            //    try
+            //    {
+            //        outfile.Write(salesPrints);
+            //        Console.WriteLine("Ecriture réussie !");
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Console.WriteLine(ex.Message);
+            //    }
+            //}
+            #endregion
+
+            #region Serialization
+            Garage myGarage = new Garage();
+
+            DataSerializer.DataToXml(myGarage.cars, "cars.xml");
+
+            DataTable xmlGarage = DataWriter.XmlToTable("cars.xml");
+
+            Console.WriteLine(DataReader.TabToString(xmlGarage));
+
+            PartsBusiness partsBiz = new PartsBusiness();
+
+            DataSerializer.DataToXml(partsBiz, "partsBusiness", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+
+            DataSet xmlPartsBiz = DataWriter.XmlToSet("partsBusiness", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+
+            string partsBizStr = ToolBoxUtilities.MergeStringList(DataReader.DataSetToStrings(xmlPartsBiz));
+
+            using (StreamWriter outfile = new StreamWriter(filePath + @"\SalesPrints.txt"))
             {
-                Console.WriteLine(str);
-
-                sb.AppendLine(str);
+                try
+                {
+                    outfile.Write(partsBizStr);
+                    Console.WriteLine("Ecriture réussie !");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
-
-            using (StreamWriter outfile = new StreamWriter(filePath + @"\TabPrints.txt"))
-            {
-                outfile.Write(sb.ToString());
-            }
-
-            DataRow seller1 = sellers.Rows[0];
-            DataRow Seller2 = sellers.Rows[1];
-            DataRow seller3 = sellers.Rows[2];
-
-
             #endregion
 
             Console.ReadKey();
         }
+
+        //public static PartsBusiness XmlToPB(string fileName, string filePath)
+        //{
+        //    PartsBusiness set = new PartsBusiness();
+        //    set.EnforceConstraints = false;
+        //    set.ReadXml(ToolBoxUtilities.FullFilePath(fileName, filePath));
+
+        //    return set;
+        //}
     }
 }
