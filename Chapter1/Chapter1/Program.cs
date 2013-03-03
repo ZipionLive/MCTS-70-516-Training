@@ -122,49 +122,57 @@ namespace Chapter1
 
             #region Serialization
             Garage myGarage = new Garage();
-
-            DataSerializer.DataToXml(myGarage.cars, "cars.xml");
-
-            DataTable xmlGarage;
-            string cars = string.Empty;
-            try
-            {
-                xmlGarage = DataWriter.XmlToTable("cars.xml");
-                cars = DataReader.TabToString(xmlGarage, true);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("La lecture du fichier \"cars.xml\" a échoué\n" + ex.Message);
-            }
-
             PartsBusiness partsBiz = new PartsBusiness();
 
-            DataSerializer.DataToXml(partsBiz, "partsBusiness", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            string myDocsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-            DataSet xmlPartsBiz;
-            string partsBizStr = string.Empty;
-            try
-            {
-                xmlPartsBiz = DataWriter.XmlToSet("partsBusiness", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-                partsBizStr = ToolBoxUtilities.MergeStringList(DataReader.DataSetToStrings(xmlPartsBiz, true));
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("La lecture du fichier \"PartsBusiness.xml\" a échoué\n" + ex.Message);
-            }
+            #region XML
+            //DataSerializer.DataToXml(myGarage.cars, "cars.xml");
 
-            using (StreamWriter outfile = new StreamWriter(filePath + @"\SalesPrints.txt"))
-            {
-                try
-                {
-                    outfile.Write(cars + "\n\n" + partsBizStr);
-                    Console.WriteLine("Ecriture réussie !");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            }
+            //DataTable xmlGarage;
+            //string cars = string.Empty;
+            //try
+            //{
+            //    xmlGarage = DataWriter.XmlToTable("cars.xml");
+            //    cars = DataReader.TabToString(xmlGarage, true);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("La lecture du fichier \"cars.xml\" a échoué\n" + ex.Message);
+            //}
+
+            //DataSerializer.DataToXml(partsBiz, "partsBusiness", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+
+            //DataSet xmlPartsBiz;
+            //string partsBizStr = string.Empty;
+            //try
+            //{
+            //    xmlPartsBiz = DataWriter.XmlToSet("partsBusiness", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            //    partsBizStr = ToolBoxUtilities.MergeStringList(DataReader.DataSetToStrings(xmlPartsBiz, true));
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("La lecture du fichier \"PartsBusiness.xml\" a échoué\n" + ex.Message);
+            //}
+
+            //using (StreamWriter outfile = new StreamWriter(filePath + @"\SalesPrints.txt"))
+            //{
+            //    try
+            //    {
+            //        outfile.Write(cars + "\n\n" + partsBizStr);
+            //        Console.WriteLine("Ecriture réussie !");
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Console.WriteLine(ex.Message);
+            //    }
+            //}
+            #endregion
+            #region Binary
+            DataSerializer.DataToBinary(myGarage.cars, "cars.bin", myDocsPath, true);
+            DataSerializer.DataToBinary(partsBiz, "partsBusiness", myDocsPath);
+            DataSerializer.DataToBinary(partsBiz, "partsBizTrueBin.bin", myDocsPath, true);
+            #endregion
             #endregion
 
             Console.ReadKey();

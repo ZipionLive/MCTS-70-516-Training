@@ -6,6 +6,7 @@ using System.Data;
 
 namespace Chapter1
 {
+    [Serializable]
     public class PartsBusiness : DataSet
     {
         public DataTable sellers { get; private set; }

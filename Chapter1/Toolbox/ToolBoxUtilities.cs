@@ -9,6 +9,21 @@ namespace Toolbox
     public static class ToolBoxUtilities
     {
         /// <summary>
+        /// Concatène les différents strings contenus dans une liste
+        /// </summary>
+        /// <param name="strList">Une liste de strings</param>
+        public static string MergeStringList(List<string> strList)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (string str in strList)
+                sb.AppendLine(str + "\n");
+
+            return sb.ToString();
+        }
+
+        #region File path generation
+        /// <summary>
         /// Génère un chemin complêt pour un fichier XML à partir d'un emplacement et d'un nom de fichier
         /// </summary>
         /// <param name="fileName">Le nom du fichier</param>
@@ -39,17 +54,17 @@ namespace Toolbox
         }
 
         /// <summary>
-        /// Concatène les différents strings contenus dans une liste
+        /// Génère un chemin complêt pour un fichier BIN à partir d'un emplacement et d'un nom de fichier
         /// </summary>
-        /// <param name="strList">Une liste de strings</param>
-        public static string MergeStringList(List<string> strList)
+        /// <param name="fileName">Le nom du fichier</param>
+        /// <param name="filePath">L'emplacement du fichier</param>
+        /// <returns>Le chemin complêt sous forme de string</returns>
+        public static string BinaryPath(string fileName, string filePath)
         {
-            StringBuilder sb = new StringBuilder();
-
-            foreach (string str in strList)
-                sb.AppendLine(str + "\n");
-
-            return sb.ToString();
+            if (!fileName.Substring(fileName.Length - 4).Equals(".bin"))
+                fileName += ".bin";
+            return Path.Combine(filePath, fileName);
         }
+        #endregion
     }
 }
