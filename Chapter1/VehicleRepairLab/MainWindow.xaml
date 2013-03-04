@@ -1,8 +1,29 @@
 ﻿<Window x:Class="VehicleRepairLab.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="96" Width="334" Loaded="Window_Loaded">
+        Title="MainWindow" Height="481" Width="491" Loaded="Window_Loaded">
     <Grid>
-        <Label Content="" Margin="12,12,12,14" Name="lblDataLoaded" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+        <Canvas Height="40" Name="cvDataLoadStatus" VerticalAlignment="Top" Margin="12,12,12,0" Background="DarkGray">
+            <Label Canvas.Left="6" Canvas.Top="6" Content="Label" Height="28" Name="lblDataLoaded" Foreground="White"
+                   FontFamily="Ubuntu" FontWeight="Bold" FontSize="16" />
+        </Canvas>
+        <UniformGrid Rows="2" Columns="1" Margin="12,58,12,12" Background="LightCyan">
+            <DataGrid AutoGenerateColumns="False" Name="dgVehicles" Margin="6,6,6,6" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="*" Header="Plate" Binding="{Binding Path=Plate}" />
+                    <DataGridTextColumn Width="*" Header="Manufacturer" Binding="{Binding Path=Manufacturer}" />
+                    <DataGridTextColumn Width="*" Header="Model" Binding="{Binding Path=Model}" />
+                    <DataGridTextColumn Width="*" Header="Year" Binding="{Binding Path=Year}" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid AutoGenerateColumns="False" Name="dgRepairs" Margin="6,0,6,6">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="*" Header="ID" Binding="{Binding Path=ID}" />
+                    <DataGridTextColumn Width="*" Header="Vehicle Plate" Binding="{Binding Path=Plate}" />
+                    <DataGridTextColumn Width="*" Header="Description" Binding="{Binding Path=Description}" />
+                    <DataGridTextColumn Width="*" Header="Cost" Binding="{Binding Path=Cost}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </UniformGrid>
     </Grid>
 </Window>

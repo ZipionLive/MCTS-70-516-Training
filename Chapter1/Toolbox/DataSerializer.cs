@@ -8,6 +8,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Toolbox
 {
+    /// <summary>
+    /// Contient des méthodes permettant de sérialiser des DataTables et DataSets en XML ou binaire
+    /// </summary>
     public static class DataSerializer
     {
         #region XML

@@ -6,6 +6,9 @@ using System.Data;
 
 namespace Toolbox
 {
+    /// <summary>
+    /// Contient des méthodes permettant de lire des DataTables et DataSets et de les convertir en string
+    /// </summary>
     public static class DataReader
     {
         const int defaultColWidth = 15;

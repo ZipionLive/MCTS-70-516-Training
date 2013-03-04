@@ -8,6 +8,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Toolbox
 {
+    /// <summary>
+    /// Contient des méthodes permettant l'écriture dans des DataTables et DataSets depuis diverses sources
+    /// </summary>
     public static class DataWriter
     {
         /// <summary>

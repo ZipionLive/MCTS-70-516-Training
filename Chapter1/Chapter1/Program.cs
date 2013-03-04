@@ -125,6 +125,7 @@ namespace Chapter1
             PartsBusiness partsBiz = new PartsBusiness();
 
             string myDocsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string customPath = @"C:\DB_exos\";
 
             #region XML
             //DataSerializer.DataToXml(myGarage.cars, "cars.xml");
@@ -168,8 +169,9 @@ namespace Chapter1
             //    }
             //}
             #endregion
+
             #region Binary
-            DataSerializer.DataToBinary(myGarage.cars, "cars.bin", myDocsPath, true);
+            DataSerializer.DataToBinary(myGarage.cars, "carsCopy.bin", customPath, true);
             DataSerializer.DataToBinary(partsBiz, "partsBusiness", myDocsPath);
             DataSerializer.DataToBinary(partsBiz, "partsBizTrueBin.bin", myDocsPath, true);
             #endregion

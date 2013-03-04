@@ -6,6 +6,9 @@ using System.IO;
 
 namespace Toolbox
 {
+    /// <summary>
+    /// Contient des méthodes diverses
+    /// </summary>
     public static class ToolBoxUtilities
     {
         /// <summary>
@@ -28,13 +31,13 @@ namespace Toolbox
         /// </summary>
         /// <param name="fileName">Le nom du fichier</param>
         /// <param name="filePath">L'emplacement du fichier</param>
+        /// <param name="fileExtension">L'extension du fichier (".xml" par défaut)</param>
         /// <returns>Le chemin complêt sous forme de string</returns>
-        public static string XmlPath(string fileName, string filePath)
+        public static string XmlPath(string fileName, string filePath, string fileExtension = ".xml")
         {
-            if (fileName.Substring(fileName.Length - 4).Equals(".xsd"))
+            if (fileName.Substring(fileName.Length - 4, 1).Equals("."))
                 fileName = fileName.Substring(0, fileName.Length - 4);
-            if (!fileName.Substring(fileName.Length - 4).Equals(".xml"))
-                fileName += ".xml";
+            fileName += fileExtension;
             return Path.Combine(filePath, fileName);
         }
 
@@ -43,13 +46,13 @@ namespace Toolbox
         /// </summary>
         /// <param name="fileName">Le nom du fichier</param>
         /// <param name="filePath">L'emplacement du fichier</param>
+        /// <param name="fileExtension">L'extension du fichier (".xsd" par défaut)</param>
         /// <returns>Le chemin complêt sous forme de string</returns>
-        public static string SchemaPath(string fileName, string filePath)
+        public static string SchemaPath(string fileName, string filePath, string fileExtension = ".xsd")
         {
-            if (fileName.Substring(fileName.Length - 4).Equals(".xml"))
+            if (fileName.Substring(fileName.Length - 4, 1).Equals("."))
                 fileName = fileName.Substring(0, fileName.Length - 4);
-            if (!fileName.Substring(fileName.Length - 4).Equals(".xsd"))
-                fileName += ".xsd";
+            fileName += fileExtension;
             return Path.Combine(filePath, fileName);
         }
 
@@ -58,11 +61,13 @@ namespace Toolbox
         /// </summary>
         /// <param name="fileName">Le nom du fichier</param>
         /// <param name="filePath">L'emplacement du fichier</param>
+        /// <param name="fileExtension">L'extension du fichier (".bin" par défaut)</param>
         /// <returns>Le chemin complêt sous forme de string</returns>
-        public static string BinaryPath(string fileName, string filePath)
+        public static string BinaryPath(string fileName, string filePath, string fileExtension = ".bin")
         {
-            if (!fileName.Substring(fileName.Length - 4).Equals(".bin"))
-                fileName += ".bin";
+            if (fileName.Substring(fileName.Length - 4, 1).Equals("."))
+                fileName = fileName.Substring(0, fileName.Length - 4);
+            fileName += ".zlb";
             return Path.Combine(filePath, fileName);
         }
         #endregion
