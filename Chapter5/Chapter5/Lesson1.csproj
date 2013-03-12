@@ -8,7 +8,7 @@
     <ProjectGuid>{38E63124-EE9F-432C-A463-84A77860831A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Chapter5</RootNamespace>
+    <RootNamespace>Lesson1</RootNamespace>
     <AssemblyName>Chapter5</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
