@@ -21,16 +21,24 @@ namespace Toolbox
 
             while (typingPwd)
             {
-                char c = Console.ReadKey(true).KeyChar;
-                if (c == '\r')
+                ConsoleKeyInfo keyPressed = Console.ReadKey(true);
+
+                if (keyPressed.Key == ConsoleKey.Backspace && pwd != string.Empty)
                 {
-                    typingPwd = false;
-                    Console.WriteLine();
+                    pwd = pwd.Substring(0, pwd.Length - 1);
                 }
                 else
                 {
-                    pwd += c.ToString();
-                    Console.Write("*");
+                    char c = keyPressed.KeyChar;
+                    if (c == '\r')
+                    {
+                        typingPwd = false;
+                        Console.WriteLine();
+                    }
+                    else
+                    {
+                        pwd += c.ToString();
+                    }
                 }
             }
 
